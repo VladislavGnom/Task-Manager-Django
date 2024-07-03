@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="text-center">Your Tasks:  <a href="{% url 'create_task' %}"><button class="rounded-circle btn btn-warning" type="submit">+</button></a></h2>
+{% if tasks %}
+<div class="mt-3 row">
+    <ul class="list-group col-6">
+        {% for task in tasks %}
+        {% if task.is_complete == False %}
+        <li class="list-group-item"><a href="{% url 'edit_task' task_id=task.pk %}">{{ task }}</a> <a href="{% url 'delete_task' task_id=task.pk %}"><button class="btn btn-danger btn-sm ml-2" type="button">DELETE</button></a><a href="{% url 'change_list' task_id=task.pk is_complete='complete' %}"><button class="btn btn-success btn-sm ml-2" type="buttton">COMPLETE</button></a></li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+    <ul class="list-group col-6">
+        {% for task in tasks %}
+        {% if task.is_complete == True %}
+        <li class="list-group-item"><a href="{% url 'edit_task' task_id=task.pk %}">{{ task }}</a> <a href="{% url 'delete_task' task_id=task.pk %}"><button class="btn btn-danger btn-sm ml-2" type="button">DELETE</button></a><a href="{% url 'change_list' task_id=task.pk is_complete='uncomplete' %}"><button class="btn btn-warning btn-sm ml-2" type="buttton">UNCOMPLETE</button></a></li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+{% else %}
+<p>You still don't have tasks. Add them!</p>
+{% endif %}
+{% endblock %}
